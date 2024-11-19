@@ -78,6 +78,69 @@ Tabs.Macro:CreateParagraph("Why soon?", {
     ContentAlignment = Enum.TextXAlignment.Center
 })
 
+local codes = {"SPLENDID820","810TIME!","BIG8HUNDO!","SHINE790K","GLITTER780K","4BUNDANCY","OMGREBOOTAGAIN","NANAP0CALYPSE!","770KWOW!", "SORRY4DELAY", "NEWBOUNTYERA!", "HOWLINGFALL!", "LVLBUFFHYPE", "ICEW0LF", "SM4LLFRY"}
+
+local function redeem_codes()
+  for i,v in pairs(codes) do
+    local string_1 = "Codes";
+    local string_2 = "Redeem";
+    local table_1 = {
+      ["Code"] = v
+    };
+    game:GetService("ReplicatedStorage").Replicator:InvokeServer(string_1, string_2, table_1);
+    -- Добавлено ожидание для предотвращения спама запросов к серверу.  Настройте wait(seconds) по необходимости.
+    wait(0.1) -- Ожидание 0.1 секунды между вызовами
+  end
+end
+
+
+
+
+local Toggle = Tabs.Spins:CreateToggle("AutoSpin", {Title = "Автоматический спин", Default = false })
+
+Toggle:OnChanged(function()
+    redeem_codes()
+    local currfruit = game.Players.LocalPlayer["MAIN_DATA"].Slots["1"].Value
+    local wantedfruits = {"Leopard","Nika","DragonV2","TSRubber", "Okuchi", "Soul", "DarkXQuake", "Dough", "Dragon", "Venom"}
+
+    repeat
+    wait(5.1)
+    local string_1 = "FruitsHandler";
+    local string_2 = "Spin";
+    local table_1 = {
+
+    };
+    local Target = game:GetService("ReplicatedStorage").Replicator;
+    if not table.find(wantedfruits,currfruit) then
+    Target:InvokeServer(string_1, string_2, table_1);
+    end
+    currfruit = game.Players.LocalPlayer["MAIN_DATA"].Slots["1"].Value
+
+    until table.find(wantedfruits,currfruit)
+end)
+
+local Dropdown = Tabs.Spins:CreateDropdown("Dropdown", {
+    Title = "Желаемый(е) фрукт(ы)",
+    Values = {"Barrier", "Chop", "Sand", "Smoke", "Rubber", "Falcon", "Gas", "Bomb", "Ice", "Darkness", "Ash", "Light", "Flame", "Magma", "Paw", "String", "Love", "Quake", "Gravity", "Phoenix", "TSRubber", "Dragon", "Magnet", "Venom", "MagmaV2", "IceV2", "LightV2", "FlameV2", "Dough", "Lighthing", "Leopard", "Ope", "Nika", "DragonV2", "Soul", "DarkXQuake", "Okuchi"},
+    Multi = false,
+    Default = 1,
+})
+
+Dropdown:SetValue("four")
+
+Dropdown:OnChanged(function(Value)
+    print("Dropdown changed:", Value)
+end)
+
+
+
+
+
+
+
+
+
+
 
 
 
