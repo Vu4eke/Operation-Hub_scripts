@@ -96,40 +96,40 @@ end
 
 
 
-local Toggle = Tabs.Spins:CreateToggle("AutoSpin", {Title = "Автоматический спин", Default = false })
+local Toggle = Tabs.Spins:CreateToggle("AutoSpin", {Title = "Автоматический спин", Default = false})
 
-Toggle:OnChanged(function()
-    redeem_codes()
-    local currfruit = game.Players.LocalPlayer["MAIN_DATA"].Slots["1"].Value
-    local wantedfruits = {"Leopard","Nika","DragonV2","TSRubber", "Okuchi", "Soul", "DarkXQuake", "Dough", "Dragon", "Venom"}
+Toggle:OnChanged(function(state)
+    SPIN = state
 
-    repeat
-    wait(5.1)
-    local string_1 = "FruitsHandler";
-    local string_2 = "Spin";
-    local table_1 = {
-
-    };
-    local Target = game:GetService("ReplicatedStorage").Replicator;
-    if not table.find(wantedfruits,currfruit) then
-    Target:InvokeServer(string_1, string_2, table_1);
+    while SPIN and libclose() do
+        task.spawn(function()
+            local MAIN_DATA = Player:WaitForChild("MAIN_DATA")
+            local Gems = MAIN_DATA:WaitForChild("Gems")
+            local Slots = MAIN_DATA:WaitForChild("Slots")
+            local Slot = MAIN_DATA:WaitForChild("Slot")
+            if Slots[Slot.Value] and FRUITS and (not table.find(FRUITS, Slots[Slot.Value].Value)) then
+                if MAIN_DATA and Gems and Gems.Value >= 80 then
+                    game:GetService("ReplicatedStorage").Replicator:InvokeServer("FruitsHandler", "Spin", {["Type"] = "Fast"})
+                else
+                    game:GetService("ReplicatedStorage").Replicator:InvokeServer("Core", "UpdateSettings", {["\255"] = true, ["\255"] = true, ["\255"] = true, ["\255"] = true, ["\255"] = true})
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId)
+                end
+            end
+        end)
+        task.wait()
     end
-    currfruit = game.Players.LocalPlayer["MAIN_DATA"].Slots["1"].Value
-
-    until table.find(wantedfruits,currfruit)
 end)
 
-local Dropdown = Tabs.Spins:CreateDropdown("Dropdown", {
+local MultiDropdown = Tabs.Spins:CreateDropdown("Wanted_fruits", {
     Title = "Желаемый(е) фрукт(ы)",
+    Description = "Выберите фрукт.",
     Values = {"Barrier", "Chop", "Sand", "Smoke", "Rubber", "Falcon", "Gas", "Bomb", "Ice", "Darkness", "Ash", "Light", "Flame", "Magma", "Paw", "String", "Love", "Quake", "Gravity", "Phoenix", "TSRubber", "Dragon", "Magnet", "Venom", "MagmaV2", "IceV2", "LightV2", "FlameV2", "Dough", "Lighthing", "Leopard", "Ope", "Nika", "DragonV2", "Soul", "DarkXQuake", "Okuchi"},
-    Multi = false,
-    Default = 1,
+    Multi = true,
+    Default = {""},
 })
 
-Dropdown:SetValue("four")
-
-Dropdown:OnChanged(function(Value)
-    print("Dropdown changed:", Value)
+MultiDropdown:OnChanged(function(selected)
+    FRUITS = selected
 end)
 
 
