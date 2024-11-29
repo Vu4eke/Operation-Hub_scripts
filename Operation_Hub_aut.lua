@@ -74,7 +74,8 @@ Tabs.Sa:CreateButton{
     Title = "Открыть “Black Market”",
     Description = "Открыть меню черного дилера",
     Callback = function()
-        
+        game.Players.LocalPlayer.PlayerGui.UI.Menus.Visible = true
+        game.Players.LocalPlayer.PlayerGui.UI.Menus["Black Market"].Visible = true
     end
 }
 
