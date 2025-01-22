@@ -32,7 +32,7 @@ local currentTime = getMoscowTime()
 
 local Window = Library:CreateWindow{
     Title = `Operation Hub `,
-    SubTitle = "A Universal Time • ".. currentTime,
+    SubTitle = "Blackhawk Rescue Mission 5 • ".. currentTime,
     TabWidth = 160,
     Size = UDim2.fromOffset(830, 525),
     Resize = true, -- Resize this ^ Size according to a 1920x1080 screen, good for mobile users but may look weird on some devices
@@ -54,7 +54,11 @@ local Tabs = {
     },
     af = Window:CreateTab{
         Title = "Auto-Farm",
-        Icon = "atom"
+        Icon = "boxes"
+    },
+    teleports = Window:CreateTab{
+        Title = "Teleports",
+        Icon = "send-to-back"
     },
     Settings = Window:CreateTab{
         Title = "Settings",
@@ -95,9 +99,22 @@ Tabs.bunker:CreateButton{
     end
 }
 
+Tabs.teleports:CreateButton{
+    Title = "FoB base (Main spawn)",
+    Description = "Телепортирует на главную базу.",
+    Callback = function()
+        
+    end
+}
 
 
-
+Tabs.teleports:CreateButton{
+    Title = "[Debug] Get coordinate player",
+    Description = "Копирует координаты игрока.",
+    Callback = function()
+        setclipboard(tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position))
+    end
+}
 
 -- Addons:
 -- SaveManager (Allows you to have a configuration system)
