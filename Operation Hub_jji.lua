@@ -1,7 +1,5 @@
 local Luna = loadstring(game:HttpGet("https://paste.ee/r/WSCKThwW", true))()
-local HttpService = game:GetService("HttpService")
 local configFile = "Hanslo.json"
-local http = game:GetService("HttpService")
 local userId = game.Players.LocalPlayer.UserId
 local config = {
     itemESPEnabled = false
@@ -116,10 +114,7 @@ end)
 local Toggle = Settings:CreateToggle({
     Name = "Enable Item ESP",
     Description = "Toggle the item ESP feature to display item distances and names.",
-    CurrentValue = config.itemESPEnabled,
     Callback = function(Value)
-        config.itemESPEnabled = Value
         toggleESP(Value) 
-        saveConfig()
     end
 })
