@@ -1,6 +1,4 @@
 local Luna = loadstring(game:HttpGet("https://paste.ee/r/WSCKThwW", true))()
-local configFile = "Hanslo.json"
-local userId = game.Players.LocalPlayer.UserId
 local config = {
     itemESPEnabled = false
 }
@@ -35,6 +33,39 @@ local Settings = Window:CreateTab({
     Icon = "settings",
     ImageSource = "Material",
     ShowTitle = true
+})
+
+-- Gamepass giver
+local Button = Settings:CreateButton({
+    Name = "Grant Gamepasses",
+    Callback = function()
+                Luna:Notification({
+                Title = "Success",
+                Content = "Granted Gamepasses",
+                ImageSource = "Material",
+                Icon = "notifications_active",
+                Time = 5
+})
+        local gamepassIds = {"77102528", "77102481", "77103458", "259500454", "77102969"}
+        local player = game:GetService("Players").LocalPlayer
+        local replicatedData = player:WaitForChild("ReplicatedData")
+        local gamepassesFolder = replicatedData:WaitForChild("gamepasses")
+
+        for _, gamepassId in ipairs(gamepassIds) do
+            local gamepassValue = gamepassesFolder:FindFirstChild(gamepassId)
+
+            if not gamepassValue then
+              
+                gamepassValue = Instance.new("BoolValue")
+                gamepassValue.Name = gamepassId
+                gamepassValue.Value = true
+                gamepassValue.Parent = gamepassesFolder
+                print("Inserted BoolValue for game pass with ID:", gamepassId)
+            else
+                print("BoolValue for game pass with ID already exists:", gamepassId)
+            end
+        end
+    end
 })
 
 -- ESP Settings
